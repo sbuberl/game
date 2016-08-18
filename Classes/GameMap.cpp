@@ -100,7 +100,7 @@ GameMap *GameMap::loadTmx(const std::string &tmxFile, const std::string &terrain
             terrainPieces.push_back(terrainId);
         });
 
-        if (terrainPieces.size() == 4 && std::adjacent_find(terrainPieces.begin(), terrainPieces.end(), std::not_equal_to<std::string>()) == terrainPieces.end())
+        if (std::adjacent_find(terrainPieces.begin(), terrainPieces.end(), std::not_equal_to<std::string>()) == terrainPieces.end())
         {
             int terrainId = std::stoi(terrainPieces[0]);
             terrains[terrainId].addTile(tileId);
