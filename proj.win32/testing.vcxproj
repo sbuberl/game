@@ -166,6 +166,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\MapBuilder.h" />
     <ClInclude Include="..\Classes\noiseutils.h" />
     <ClInclude Include="..\Classes\Player.h" />
+    <ClInclude Include="..\Classes\TerrainType.h" />
     <ClInclude Include="..\Classes\Utils.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>

@@ -1,42 +1,12 @@
 #ifndef _GAME_MAP_H_
 #define _GAME_MAP_H_
 
+#include "TerrainType.h"
 #include <cocos2d.h>
 
 #include <string>
+#include <unordered_map>
 #include <vector>
-
-class TerrainType
-{
-public:
-
-    TerrainType(const std::string &name, int defaultTile)
-        : name_(name)
-    {
-        addTile(defaultTile);
-    }
-
-    std::string name() const
-    {
-        return name_;
-    }
-
-    void addTile(int tile)
-    {
-        fullTiles_.push_back(tile);
-    }
-
-    int randomTile() const
-    {
-        int index = std::rand() % fullTiles_.size();
-        return fullTiles_[index];
-    }
-
-private:
-
-    const std::string name_;
-    std::vector<int> fullTiles_;
-};
 
 class GameMap
 {
