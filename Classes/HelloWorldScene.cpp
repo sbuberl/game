@@ -2,7 +2,6 @@
 
 
 #include "MapBuilder.h"
-#include "Player.h"
 
 #include <noise/noise.h>
 
@@ -84,6 +83,11 @@ bool HelloWorld::init()
         player_.stop();
     };
 
+    Enemy *redImp = new Enemy{"Red Imp", "red_imp", "red_imp.png", "red_imp.plist"};
+    redImp->init(this);
+    redImp->sprite()->setPosition({64.0, 64.0});
+    enemies_.push_back(redImp);
+
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
     this->runAction(Follow::create(player_.sprite(), Rect(0, 0, fieldWidth_, fieldHeight_)));
@@ -95,6 +99,11 @@ bool HelloWorld::init()
 
 void HelloWorld::updateScene(float delta)
 {
+    for (Enemy *enemy : enemies_)
+    {
+        enemy->update(delta, fieldWidth_, fieldHeight_);
+    }
+
     bool isRunning = isKeyPressed(SHIFT_KEY);
     int speed = isRunning ? 6 : 3;
 

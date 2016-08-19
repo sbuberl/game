@@ -2,6 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "Player.h"
+#include "Enemy.h"
 #include "GameMap.h"
 
 #include "cocos2d.h"
@@ -22,6 +23,10 @@ public:
 
     ~HelloWorld()
     {
+        for (Enemy *enemy : enemies_)
+        {
+            delete enemy;
+        }
         delete map_;
     }
 
@@ -48,6 +53,7 @@ private:
     int fieldWidth_;
     int fieldHeight_;
     GameMap *map_;
+    std::vector<Enemy*> enemies_;
     std::vector<cocos2d::EventKeyboard::KeyCode> downKeys_;
 };
 
