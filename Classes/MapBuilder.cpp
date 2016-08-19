@@ -20,6 +20,8 @@ void MapBuilder::buildTerrain(GameMap *map, int width, int height)
     int rows = height / tileWidth;
     int columns = width / tileWidth;
 
+    Biome *biome = map->biome();
+
     std::random_device rd;
     std::default_random_engine random{rd()};
 
@@ -42,34 +44,17 @@ void MapBuilder::buildTerrain(GameMap *map, int width, int height)
 
         for (int column = 0; column < columns; ++column)
         {
-            std::string terrainName;
             cocos2d::Vec2 tile(column, row);
             const float cellValue = *rowValues;
             rowValues += 5;
 
-            if (cellValue < -0.3333)
+            const TerrainType *terrainType = biome->selectTerrain(map, cellValue);
+            std::string terrainName = terrainType->name();
+            if (terrainName == "Water" || terrainName == "Ice")
             {
-                terrainName = "Water";
                 map->setCollision(tile);
             }
-            else if (cellValue < -0.20)
-            {
-                terrainName = "Sand";  // desert
-            }
-            else if (cellValue < 0.5333)
-            {
-                terrainName = "Grass";	// grass
-            }
-            else if (cellValue < 0.70)
-            {
-                terrainName = "Clean Dirt";  // dirt
-            }
-            else
-            {
-                terrainName = "Snow";
-            }
 
-            const TerrainType *terrainType = map->getTerrainType(terrainName);
             uint32_t gid = terrainType->randomTile();
             map->setTile(gid, tile);
         }

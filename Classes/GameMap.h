@@ -2,6 +2,8 @@
 #define _GAME_MAP_H_
 
 #include "TerrainType.h"
+#include "Biome.h"
+
 #include <cocos2d.h>
 
 #include <string>
@@ -17,6 +19,11 @@ public:
     cocos2d::TMXTiledMap *getTmxMap()
     {
         return tmxMap_;
+    }
+
+    Biome *biome()
+    {
+        return biome_;
     }
 
     const TerrainType *getTerrainType(const std::string &name) const;
@@ -52,13 +59,14 @@ public:
 
 private:
     GameMap(cocos2d::TMXTiledMap * tmxMap, cocos2d::TMXLayer * terrain, cocos2d::TMXLayer * walkable, std::vector<TerrainType> terrains,
-        std::unordered_map<std::string, int> terrainLookup);
+        std::unordered_map<std::string, int> terrainLookup, Biome *biome);
 
     cocos2d::TMXTiledMap *tmxMap_;
     cocos2d::TMXLayer *terrainLayer_;
     cocos2d::TMXLayer *walkableLayer_;
     std::vector<TerrainType> terrainTypes_;
     std::unordered_map<std::string, int> terrainLookup_;
+    Biome *biome_;
 };
 
 #endif

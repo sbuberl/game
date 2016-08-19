@@ -65,7 +65,19 @@
     <ClInclude Include="..\Classes\Entity.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\Biome.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\TerrainType.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GrassBiome.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SnowBiome.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SandBiome.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

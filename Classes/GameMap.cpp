@@ -1,12 +1,18 @@
 
 #include "GameMap.h"
+#include "GrassBiome.h"
+#include "SandBiome.h"
+#include "SnowBiome.h"
 #include "Utils.h"
 
 #include <tinyxml2/tinyxml2.h>
 
+#include <random>
+
 GameMap::GameMap(cocos2d::TMXTiledMap *tmxMap, cocos2d::TMXLayer *terrain, cocos2d::TMXLayer *walkable,
-    std::vector<TerrainType> terrains, std::unordered_map<std::string, int> terrainLookup)
-    : tmxMap_{tmxMap}, terrainLayer_{terrain}, walkableLayer_{walkable}, terrainTypes_(terrains), terrainLookup_(terrainLookup)
+    std::vector<TerrainType> terrains, std::unordered_map<std::string, int> terrainLookup, Biome *biome)
+    : tmxMap_{tmxMap}, terrainLayer_{terrain}, walkableLayer_{walkable}, terrainTypes_(terrains), terrainLookup_(terrainLookup),
+      biome_(biome)
 {
     tmxMap_->retain();
 }
@@ -67,6 +73,23 @@ GameMap *GameMap::loadTmx(const std::string &tmxFile, const std::string &terrain
     cocos2d::TMXLayer *walkable = tmxMap->getLayer(walkableName);
     walkable->setVisible(false);
 
+    std::random_device rd;
+    std::default_random_engine randomBiome{rd()};
+    int biomeNum = randomBiome() % 3;
+    Biome *biome;
+    switch (biomeNum)
+    {
+    case 1:
+        biome = SandBiome::instance();
+        break;
+    case 2:
+        biome = SnowBiome::instance();
+        break;
+    default:
+        biome = GrassBiome::instance();
+        break;
+    }
+
     std::unordered_map<std::string, int> terrainLookup;
     std::vector<TerrainType> terrains;
 
@@ -109,6 +132,6 @@ GameMap *GameMap::loadTmx(const std::string &tmxFile, const std::string &terrain
         tile = tile->NextSiblingElement("tile");
     }
 
-    return new GameMap{tmxMap, terrainLayer, walkable, terrains, terrainLookup};
+    return new GameMap{tmxMap, terrainLayer, walkable, terrains, terrainLookup, biome};
 }
 
