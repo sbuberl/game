@@ -19,8 +19,8 @@ void Player::init(Node *parent)
     heroBatch->addChild(sprite_);
     parent->addChild(heroBatch);
 
-    walkDown_ = loadAnimation("walk_down", 4, cache);
-    walkLeft_ = loadAnimation("walk_left", 4, cache);
-    walkRight_ = loadAnimation("walk_right", 4, cache);
-    walkUp_ = loadAnimation("walk_up", 4, cache);
+    walkDown_ = loadAnimation("walk_down", 9, cache);
+    walkLeft_ = loadAnimation("walk_left", 9, cache);
+    walkRight_ = loadAnimation("walk_right", 9, cache);
+    walkUp_ = loadAnimation("walk_up", 9, cache);
 }
