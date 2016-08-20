@@ -1,0 +1,9 @@
+[
+    {
+        "name": "Red Imp",
+        "prefix": "red_imp",
+        "sheetFile": "red_imp.png",
+        "animations": "red_imp.plist",
+        "walkFrameCount": 4
+    }
+]

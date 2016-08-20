@@ -3,8 +3,8 @@
 
 USING_NS_CC;
 
-Entity::Entity(const std::string &framePrefix)
-    : framePrefix_{framePrefix + "_"}, sprite_{}, walkDown_{}, walkLeft_{}, walkRight_{}, walkUp_{}
+Entity::Entity(const EntityInfo *info)
+    : info_{info}, sprite_{}, walkDown_{}, walkLeft_{}, walkRight_{}, walkUp_{}
 {
 }
 
@@ -19,6 +19,25 @@ Entity::~Entity()
     if (walkUp_)
         walkUp_->release();
 }
+
+void Entity::init(Node *parent)
+{
+    SpriteBatchNode* batch = SpriteBatchNode::create(info_->sheetFile);
+    SpriteFrameCache* cache = SpriteFrameCache::getInstance();
+    cache->addSpriteFramesWithFile(info_->plistFile);
+
+    sprite_ = Sprite::createWithSpriteFrameName(info_->prefix + "walk_down_00");
+
+    batch->addChild(sprite_);
+    parent->addChild(batch);
+
+    int walkFrameCount = info_->walkFrameCount;
+    walkDown_ = loadAnimation("walk_down", walkFrameCount, cache);
+    walkLeft_ = loadAnimation("walk_left", walkFrameCount, cache);
+    walkRight_ = loadAnimation("walk_right", walkFrameCount, cache);
+    walkUp_ = loadAnimation("walk_up", walkFrameCount, cache);
+}
+
 
 void Entity::walk(Direction direction)
 {
@@ -47,7 +66,7 @@ void Entity::walk(Direction direction)
 void Entity::stop()
 {
     sprite_->stopAllActions();
-    std::string newFrameName = framePrefix_ + "walk_";
+    std::string newFrameName = info_->prefix + "walk_";
     switch (facing_)
     {
     case Direction::down:
@@ -71,7 +90,7 @@ Animate *Entity::loadAnimation(const std::string &name, unsigned int count, Spri
 {
     Vector<SpriteFrame*> frames(count);
 
-    std::string prefix = framePrefix_ + name + "_";
+    std::string prefix = info_->prefix + name + "_";
     for (unsigned int i = 0; i < count; ++i)
     {
         char buffer[5];

@@ -7,7 +7,7 @@ class Player : public Entity
 {
 public:
 
-    Player();
+    Player(const EntityInfo *info);
 
     void init(cocos2d::Node *parent) override;
 

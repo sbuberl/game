@@ -27,6 +27,11 @@ public:
         {
             delete enemy;
         }
+        for (EntityInfo *info : enemyInfo_)
+        {
+            delete info;
+        }
+        delete player_;
         delete map_;
     }
 
@@ -49,10 +54,11 @@ private:
         return std::find(downKeys_.begin(), downKeys_.end(), keyCode) != downKeys_.end();
     }
 
-    Player player_;
+    Player *player_;
     int fieldWidth_;
     int fieldHeight_;
     GameMap *map_;
+    std::vector<EntityInfo*> enemyInfo_;
     std::vector<Enemy*> enemies_;
     std::vector<cocos2d::EventKeyboard::KeyCode> downKeys_;
 };
