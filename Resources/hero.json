@@ -2,6 +2,6 @@
     "name": "Fumei",
     "prefix": "hero",
     "sheetFile": "hero.png",
-    "animations": "hero.plist",
-    "walkFrameCount": 9
+    "frames": "hero.plist",
+    "animations": "hero_animations.plist"
 }

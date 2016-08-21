@@ -21,16 +21,16 @@ struct EntityInfo
     std::string name;
     std::string prefix;
     std::string sheetFile;
-    std::string plistFile;
-    int walkFrameCount;
+    std::string framesPlist;
+    std::string animationsPlist;
 
     void read(rapidjson::Value &value)
     {
         name = value["name"].GetString();
         prefix = value["prefix"].GetString() + std::string("_");
         sheetFile = value["sheetFile"].GetString();
-        plistFile = value["animations"].GetString();
-        walkFrameCount = value["walkFrameCount"].GetInt();
+        framesPlist = value["frames"].GetString();
+        animationsPlist = value["animations"].GetString();
     }
 };
 
@@ -54,7 +54,7 @@ protected:
 
     Entity(const EntityInfo *info);
 
-    cocos2d::Animate *loadAnimation(const std::string & prefix, unsigned int count, cocos2d::SpriteFrameCache* cache);
+    cocos2d::Animate *loadAnimation(const std::string &name, cocos2d::AnimationCache *cache);
 
     const EntityInfo * const info_;
     Direction facing_;

@@ -24,18 +24,23 @@ void Entity::init(Node *parent)
 {
     SpriteBatchNode* batch = SpriteBatchNode::create(info_->sheetFile);
     SpriteFrameCache* cache = SpriteFrameCache::getInstance();
-    cache->addSpriteFramesWithFile(info_->plistFile);
+    cache->addSpriteFramesWithFile(info_->framesPlist);
 
     sprite_ = Sprite::createWithSpriteFrameName(info_->prefix + "walk_down_00");
 
     batch->addChild(sprite_);
     parent->addChild(batch);
 
-    int walkFrameCount = info_->walkFrameCount;
-    walkDown_ = loadAnimation("walk_down", walkFrameCount, cache);
-    walkLeft_ = loadAnimation("walk_left", walkFrameCount, cache);
-    walkRight_ = loadAnimation("walk_right", walkFrameCount, cache);
-    walkUp_ = loadAnimation("walk_up", walkFrameCount, cache);
+    AnimationCache *animations = AnimationCache::getInstance();
+    if (animations->getAnimation(info_->prefix + "walk_down") == nullptr)
+    {
+        animations->addAnimationsWithFile(info_->animationsPlist);
+    }
+
+    walkDown_ = loadAnimation("walk_down", animations);
+    walkLeft_ = loadAnimation("walk_left", animations);
+    walkRight_ = loadAnimation("walk_right", animations);
+    walkUp_ = loadAnimation("walk_up", animations);
 }
 
 
@@ -86,21 +91,10 @@ void Entity::stop()
     sprite_->setSpriteFrame(newFrameName);
 }
 
-Animate *Entity::loadAnimation(const std::string &name, unsigned int count, SpriteFrameCache* cache)
+Animate *Entity::loadAnimation(const std::string &name, AnimationCache *cache)
 {
-    Vector<SpriteFrame*> frames(count);
-
-    std::string prefix = info_->prefix + name + "_";
-    for (unsigned int i = 0; i < count; ++i)
-    {
-        char buffer[5];
-        std::sprintf(buffer, "%02d", i);
-        std::string frameName = prefix + buffer;
-        SpriteFrame* frame = cache->getSpriteFrameByName(frameName);
-        frames.pushBack(frame);
-    }
-
-    Animation *animation = Animation::createWithSpriteFrames(frames, 0.2f);
+    std::string fullName = info_->prefix + name;
+    Animation *animation = cache->getAnimation(fullName);
     Animate *animate = Animate::create(animation);
     animate->retain();
     return animate;
