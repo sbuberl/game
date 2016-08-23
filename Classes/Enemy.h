@@ -11,7 +11,11 @@ public:
 
     void init(cocos2d::Node *parent) override;
 
-    void update(float delta, int fieldWidth, int fieldHeight);
+    void update(float delta, int fieldWidth, int fieldHeight, GameMap *map);
+
+private:
+
+    Direction newDirection();
 
 };
 

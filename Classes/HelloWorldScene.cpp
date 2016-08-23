@@ -128,7 +128,7 @@ void HelloWorld::updateScene(float delta)
 {
     for (Enemy *enemy : enemies_)
     {
-        enemy->update(delta, fieldWidth_, fieldHeight_);
+        enemy->update(delta, fieldWidth_, fieldHeight_, map_);
     }
 
     bool isRunning = isKeyPressed(SHIFT_KEY);
@@ -169,44 +169,9 @@ void HelloWorld::updateScene(float delta)
         return;
     }
 
-    setPlayerPosition(playerPosition, direction);
+
+    {
+    }
+
+    player_->setPosition(playerPosition, map_);
 }
-
-void HelloWorld::setPlayerPosition(Point position, Direction direction)
-{
-    Sprite *playerSprite = player_->sprite();
-    Size playerSize = playerSprite->getContentSize();
-    float playerHalfWidth = playerSize.width / 2;
-    float playerHalfHeight = playerSize.height / 2;
-    Vec2 playerPosition = playerSprite->getPosition();
-    float playerX = playerSprite->getPositionX();
-    float playerY = playerSprite->getPositionY();
-
-    Point tileCoord;
-    switch (direction)
-    {
-    case Direction::up:
-        tileCoord = map_->tileCoordForPosition({playerX, playerY + playerHalfHeight});
-        break;
-    case Direction::right:
-        tileCoord = map_->tileCoordForPosition({playerX + playerHalfWidth, playerY});
-        break;
-    case Direction::down:
-        tileCoord = map_->tileCoordForPosition({playerX, playerY - playerHalfHeight});
-        break;
-    case Direction::left:
-        tileCoord = map_->tileCoordForPosition({playerX - playerHalfWidth, playerY});
-        break;
-    }
-    if(!map_->hasCollision(tileCoord))
-    {
-        player_->sprite()->setPosition(position);
-    }
-    else
-    {
-        player_->stop();
-    }
-}
-
-
-

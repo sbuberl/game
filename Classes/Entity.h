@@ -1,6 +1,8 @@
 #ifndef _ENTITY_H_
 #define _ENTITY_H_
 
+#include "GameMap.h"
+
 #include <cocos2d.h>
 #include <json/document.h>
 
@@ -44,11 +46,18 @@ public:
         return sprite_;
     }
 
+    Direction facing()
+    {
+        return facing_;
+    }
+
     virtual void init(cocos2d::Node *parent);
 
     void walk(Direction direction);
 
     void stop();
+
+    bool setPosition(cocos2d::Point position, GameMap *map);
 
 protected:
 

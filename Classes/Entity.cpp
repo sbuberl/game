@@ -99,3 +99,40 @@ Animate *Entity::loadAnimation(const std::string &name, AnimationCache *cache)
     animate->retain();
     return animate;
 }
+
+
+bool Entity::setPosition(Point position, GameMap *map)
+{
+    Size size = sprite_->getTextureRect().size;
+    float halfWidth = size.width / 2;
+    float halfHeight = size.height / 2;;
+    float positionX = sprite_->getPositionX();
+    float positionY = sprite_->getPositionY();
+
+    Point tileCoord;
+    switch (facing_)
+    {
+    case Direction::up:
+        tileCoord = map->tileCoordForPosition({positionX, positionY + halfHeight});
+        break;
+    case Direction::right:
+        tileCoord = map->tileCoordForPosition({positionX + halfWidth, positionY});
+        break;
+    case Direction::down:
+        tileCoord = map->tileCoordForPosition({positionX, positionY - halfHeight});
+        break;
+    case Direction::left:
+        tileCoord = map->tileCoordForPosition({positionX - halfWidth, positionY});
+        break;
+    }
+    if (!map->hasCollision(tileCoord))
+    {
+        sprite_->setPosition(position);
+        return true;
+    }
+    else
+    {
+        stop();
+        return false;
+    }
+}

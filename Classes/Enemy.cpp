@@ -20,7 +20,7 @@ void Enemy::init(Node *parent)
     walk(facing_);
 }
 
-void Enemy::update(float delta, int fieldWidth, int fieldHeight)
+void Enemy::update(float delta, int fieldWidth, int fieldHeight, GameMap *map)
 {
     int speed = 1;
     Size playerSize = sprite_->getTextureRect().size;
@@ -49,10 +49,25 @@ void Enemy::update(float delta, int fieldWidth, int fieldHeight)
     else
     {
         stop();
-        facing_ = (Direction)(rand() % 4);
+        facing_ = newDirection();
         walk(facing_);
         return;
     }
 
-    sprite_->setPosition(playerPosition);
+    if (!setPosition(playerPosition, map))
+    {
+        facing_ = newDirection();
+        walk(facing_);
+    }
+
+}
+
+Direction Enemy::newDirection()
+{
+    Direction direction;
+    do
+    {
+        direction = (Direction)(rand() % 4);
+    } while (direction == facing_);
+    return direction;
 }

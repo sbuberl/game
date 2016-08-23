@@ -47,8 +47,6 @@ private:
 
     void updateScene(float interval);
 
-    void setPlayerPosition(cocos2d::Point position, Direction direction);
-
     bool isKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode) const
     {
         return std::find(downKeys_.begin(), downKeys_.end(), keyCode) != downKeys_.end();
