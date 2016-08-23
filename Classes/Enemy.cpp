@@ -23,7 +23,7 @@ void Enemy::init(Node *parent)
 void Enemy::update(float delta, int fieldWidth, int fieldHeight)
 {
     int speed = 1;
-    Size playerSize = sprite_->getContentSize();
+    Size playerSize = sprite_->getTextureRect().size;
     float playerHalfWidth = playerSize.width / 2;
     float playerHalfHeight = playerSize.height / 2;
     Vec2 playerPosition = sprite_->getPosition();

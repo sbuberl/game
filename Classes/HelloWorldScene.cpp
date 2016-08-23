@@ -135,7 +135,7 @@ void HelloWorld::updateScene(float delta)
     int speed = isRunning ? 6 : 3;
 
     Sprite *playerSprite = player_->sprite();
-    Size playerSize = playerSprite->getContentSize();
+    Size playerSize = playerSprite->getTextureRect().size;
     float playerHalfWidth = playerSize.width / 2;
     float playerHalfHeight = playerSize.height / 2;
     Vec2 playerPosition = playerSprite->getPosition();
