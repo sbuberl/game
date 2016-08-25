@@ -1,6 +1,8 @@
 
 #include "Enemy.h"
 
+constexpr unsigned int MaxSteps = 256;
+
 USING_NS_CC;
 
 Enemy::Enemy(const EntityInfo *info)
@@ -13,9 +15,9 @@ void Enemy::init(Node *parent)
     Entity::init(parent);
 
     std::random_device rd;
-    std::default_random_engine randomDir{rd()};
-    int dirNum = randomDir() % 4;
-    facing_ = (Direction) dirNum;
+    random_.seed(rd());
+    facing_ = (Direction)(random_() % 4);
+    steps_= random_() % MaxSteps;
 
     walk(facing_);
 }
@@ -54,12 +56,11 @@ void Enemy::update(float delta, int fieldWidth, int fieldHeight, GameMap *map)
         return;
     }
 
-    if (!setPosition(playerPosition, map))
+    if (!setPosition(playerPosition, map) || --steps_ == 0)
     {
         facing_ = newDirection();
         walk(facing_);
     }
-
 }
 
 Direction Enemy::newDirection()
@@ -67,7 +68,8 @@ Direction Enemy::newDirection()
     Direction direction;
     do
     {
-        direction = (Direction)(rand() % 4);
+        direction = (Direction)(random_() % 4);
     } while (direction == facing_);
+    steps_ = random_() % MaxSteps;
     return direction;
 }

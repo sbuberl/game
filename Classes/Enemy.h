@@ -17,6 +17,9 @@ private:
 
     Direction newDirection();
 
+    std::default_random_engine random_;
+    unsigned int steps_;
+
 };
 
 #endif
