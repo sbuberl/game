@@ -27,6 +27,7 @@ void Entity::init(Node *parent)
     cache->addSpriteFramesWithFile(info_->framesPlist);
 
     sprite_ = Sprite::createWithSpriteFrameName(info_->prefix + "walk_down_00");
+    sprite_->setAnchorPoint({0.0, 0.0});
 
     batch->addChild(sprite_);
     parent->addChild(batch);
@@ -104,25 +105,28 @@ Animate *Entity::loadAnimation(const std::string &name, AnimationCache *cache)
 bool Entity::setPosition(Point position, GameMap *map)
 {
     Size size = sprite_->getTextureRect().size;
-    float halfWidth = size.width / 2;
-    float halfHeight = size.height / 2;;
-    float positionX = sprite_->getPositionX();
-    float positionY = sprite_->getPositionY();
+    float width = size.width;
+    float height = size.height;
+    float positionX = position.x;
+    float positionY = position.y;
+
+    positionX = positionX != 0 ? positionX : 1;
+    positionY = positionY != 0 ? positionY : 1;
 
     Point tileCoord;
     switch (facing_)
     {
     case Direction::up:
-        tileCoord = map->tileCoordForPosition({positionX, positionY + halfHeight});
+        tileCoord = map->tileCoordForPosition({positionX + width / 2, positionY + height});
         break;
     case Direction::right:
-        tileCoord = map->tileCoordForPosition({positionX + halfWidth, positionY});
+        tileCoord = map->tileCoordForPosition({positionX + width, positionY + height / 2});
         break;
     case Direction::down:
-        tileCoord = map->tileCoordForPosition({positionX, positionY - halfHeight});
+        tileCoord = map->tileCoordForPosition({positionX + width / 2, positionY});
         break;
     case Direction::left:
-        tileCoord = map->tileCoordForPosition({positionX - halfWidth, positionY});
+        tileCoord = map->tileCoordForPosition({positionX, positionY + height / 2});
         break;
     }
     if (!map->hasCollision(tileCoord))

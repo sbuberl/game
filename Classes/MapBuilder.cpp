@@ -15,10 +15,10 @@ void MapBuilder::buildMap(GameMap *map, int width, int height)
 
 void MapBuilder::buildTerrain(GameMap *map, int width, int height)
 {
-    constexpr int tileWidth = 32;
-
-    int rows = height / tileWidth;
-    int columns = width / tileWidth;
+    auto scale = cocos2d::Director::getInstance()->getContentScaleFactor();
+    auto tileSize = map->getTmxMap()->getTileSize();
+    int rows = height / (tileSize.height / scale);
+    int columns = width / (tileSize.width / scale);
 
     Biome *biome = map->biome();
 

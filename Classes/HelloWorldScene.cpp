@@ -136,34 +136,64 @@ void HelloWorld::updateScene(float delta)
 
     Sprite *playerSprite = player_->sprite();
     Size playerSize = playerSprite->getTextureRect().size;
-    float playerHalfWidth = playerSize.width / 2;
-    float playerHalfHeight = playerSize.height / 2;
+    float width = playerSize.width;
+    float height = playerSize.height;
+
     Vec2 playerPosition = playerSprite->getPosition();
     float playerX = playerSprite->getPositionX();
     float playerY = playerSprite->getPositionY();
-    Direction direction;
 
-    if (isKeyPressed(RIGHT_ARROW) && playerX < fieldWidth_ - playerHalfWidth)
+    bool stop = true;
+    if (isKeyPressed(RIGHT_ARROW))
     {
-        playerPosition.x += speed;
-        direction = Direction::right;
+        if (playerX + width + speed < fieldWidth_)
+        {
+            playerPosition.x += speed;
+            stop = false;
+        }
+        else
+        {
+            playerPosition.x = fieldWidth_ - width;
+        }
     }
-    else if (isKeyPressed(LEFT_ARROW) && playerX > playerHalfWidth)
+    else if (isKeyPressed(LEFT_ARROW))
     {
-        playerPosition.x -= speed;
-        direction = Direction::left;
+        if (playerX > speed)
+        {
+            playerPosition.x -= speed;
+            stop = false;
+        }
+        else
+        {
+            playerPosition.x = 0;
+        }
     }
-    else if (isKeyPressed(UP_ARROW) && playerY < fieldHeight_- playerHalfHeight)
+    else if (isKeyPressed(UP_ARROW))
     {
-        playerPosition.y += speed;
-        direction = Direction::up;
+        if (playerY + height + speed < fieldHeight_)
+        {
+            playerPosition.y += speed;
+            stop = false;
+        }
+        else
+        {
+            playerPosition.y = fieldHeight_ - height;
+        }
     }
-    else if (isKeyPressed(DOWN_ARROW) && playerY > playerHalfHeight)
+    else if (isKeyPressed(DOWN_ARROW))
     {
-        playerPosition.y -= speed;
-        direction = Direction::down;
+        if (playerY >= speed)
+        {
+            playerPosition.y -= speed;
+            stop = false;
+        }
+        else
+        {
+            playerPosition.y = 0;
+        }
     }
-    else
+
+    if (stop)
     {
         player_->stop();
         return;
