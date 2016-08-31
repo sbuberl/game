@@ -21,6 +21,12 @@ void tokenize(const std::string& str, const std::string& delimiters, F processor
     processor(str.substr(lastPos, pos - lastPos));
 }
 
+template<typename F>
+unsigned int randomInt(F &random, unsigned int min, unsigned int max)
+{
+    return min + (random() % (int)(max - min + 1));
+}
+
 void readJsonFile(const std::string &fileName, rapidjson::Document &document);
 
 #endif

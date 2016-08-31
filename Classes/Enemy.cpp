@@ -1,6 +1,9 @@
 
 #include "Enemy.h"
 
+#include "Utils.h"
+
+constexpr unsigned int MinSteps = 32;
 constexpr unsigned int MaxSteps = 256;
 
 USING_NS_CC;
@@ -17,7 +20,7 @@ void Enemy::init(Node *parent)
     std::random_device rd;
     random_.seed(rd());
     facing_ = (Direction)(random_() % 4);
-    steps_= random_() % MaxSteps;
+    randomSteps();
 
     walk(facing_);
 }
@@ -63,6 +66,11 @@ void Enemy::update(float delta, int fieldWidth, int fieldHeight, GameMap *map)
     }
 }
 
+void Enemy::randomSteps()
+{
+    steps_ = randomInt(random_, MinSteps, MaxSteps);
+}
+
 Direction Enemy::newDirection()
 {
     Direction direction;
@@ -70,6 +78,6 @@ Direction Enemy::newDirection()
     {
         direction = (Direction)(random_() % 4);
     } while (direction == facing_);
-    steps_ = random_() % MaxSteps;
+    randomSteps();
     return direction;
 }
