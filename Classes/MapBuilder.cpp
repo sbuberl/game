@@ -17,7 +17,9 @@ void MapBuilder::buildTerrain(GameMap *map, int width, int height)
 {
     auto scale = cocos2d::Director::getInstance()->getContentScaleFactor();
     auto tileSize = map->getTmxMap()->getTileSize();
-    int rows = height / (tileSize.height / scale);
+
+    // One extra row to fix black bar at the top
+    int rows = height / (tileSize.height / scale) + 1;
     int columns = width / (tileSize.width / scale);
 
     Biome *biome = map->biome();
